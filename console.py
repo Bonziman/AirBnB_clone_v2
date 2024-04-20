@@ -113,21 +113,26 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
-            print("** class name missing **")
-            return
-        if args:
-            my_list = args.split(" ")
-            if my_list:
-                cls_name = my_list[0]
-            else:
-                print("** class name missing **")
+    def do_create(self, line):
+        """Creates a new instance of BaseModel, saves it
+        Exceptions:
+            SyntaxError: when there is no args given
+            NameError: when there is no object taht has the name
+        """
+        try:
+            if not line:
+                raise SyntaxError()
+            my_list = line.split(" ")  # split cmd line into list
+
+            if my_list:  # if list not empty
+                cls_name = my_list[0]  # extract class name
+            else:  # class name missing
+                raise SyntaxError()
+
             kwargs = {}
-            
-            for pair in my_list[1]:
-                k,v = pair.split("=")
+
+            for pair in my_list[1:]:
+                k, v = pair.split("=")
                 if self.is_int(v):
                     kwargs[k] = int(v)
                 elif self.is_float(v):
@@ -135,10 +140,16 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     v = v.replace('_', ' ')
                     kwargs[k] = v.strip('"\'')
-        obj = self.all_classes[cls_name](**kwargs)
-        storage.new(obj)  # store new object
-        obj.save()  # save storage to file
-        print(obj.id)  # print id of created object class
+
+            obj = self.all_classes[cls_name](**kwargs)
+            storage.new(obj)  # store new object
+            obj.save()  # save storage to file
+            print(obj.id)  # print id of created object class
+
+        except SyntaxError:
+            print("** class name missing **")
+        except KeyError:
+            print("** class doesn't exist **")
 
     def help_create(self):
         """ Help information for the create method """
