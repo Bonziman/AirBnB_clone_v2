@@ -143,7 +143,7 @@ class HBNBCommand(cmd.Cmd):
                 kwargs[k] = v.strip('"\'')
     
         # Create an instance of the class with the given arguments
-        obj = self.all_classescls_name
+        obj = self.all_classes[cls_name]
         storage.new(obj)  # Store new object
         obj.save()  # Save storage to file
         print(obj.id)  # Print id of created object class
