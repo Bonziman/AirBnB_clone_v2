@@ -123,7 +123,7 @@ class HBNBCommand(cmd.Cmd):
         print("** class name missing **")
         return
     cls_name = my_list[0]
-    if cls_name not in self.all_classes:
+    if cls_name not in HBNBCommand.classes:
         print("** class not found **")
         return
     kwargs = {}
