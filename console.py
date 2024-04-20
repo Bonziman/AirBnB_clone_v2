@@ -114,39 +114,39 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-    """Create an object of any class."""
-    if not args:
-        print("** class name missing **")
-        return
-    my_list = args.split(" ")
-    if not my_list:
-        print("** class name missing **")
-        return
-    cls_name = my_list[0]
-    if cls_name not in HBNBCommand.classes:
-        print("** class not found **")
-        return
-    kwargs = {}
+        """Create an object of any class."""
+        if not args:
+            print("** class name missing **")
+            return
+        my_list = args.split(" ")
+        if not my_list:
+            print("** class name missing **")
+            return
+        cls_name = my_list[0]
+        if cls_name not in self.all_classes:
+            print("** class not found **")
+            return
+        kwargs = {}
     
-    # Loop through each argument after the class name
-    for pair in my_list[1:]:
-        k, v = pair.split("=")
-        # Check if the value can be converted to an integer
-        if v.isdigit():
-            kwargs[k] = int(v)
-        # Check if the value can be converted to a float
-        elif v.replace('.', '', 1).isdigit() and v.count('.') < 2:
-            kwargs[k] = float(v)
-        else:
-            # Replace underscores with spaces and strip quotes
-            v = v.replace('_', ' ')
-            kwargs[k] = v.strip('"\'')
+        # Loop through each argument after the class name
+        for pair in my_list[1:]:
+            k, v = pair.split("=")
+            # Check if the value can be converted to an integer
+            if v.isdigit():
+                kwargs[k] = int(v)
+            # Check if the value can be converted to a float
+            elif v.replace('.', '', 1).isdigit() and v.count('.') < 2:
+                kwargs[k] = float(v)
+            else:
+                # Replace underscores with spaces and strip quotes
+                v = v.replace('_', ' ')
+                kwargs[k] = v.strip('"\'')
     
-    # Create an instance of the class with the given arguments
-    obj = self.all_classescls_name
-    storage.new(obj)  # Store new object
-    obj.save()  # Save storage to file
-    print(obj.id)  # Print id of created object class
+        # Create an instance of the class with the given arguments
+        obj = self.all_classescls_name
+        storage.new(obj)  # Store new object
+        obj.save()  # Save storage to file
+        print(obj.id)  # Print id of created object class
 
     def help_create(self):
         """ Help information for the create method """
