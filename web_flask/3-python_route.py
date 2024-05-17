@@ -27,3 +27,7 @@ def c_is_fun(text):
 def python_is_cool(text="is cool"):
     new_text = text.replace("_", " ")
     return f"Python {new_text}"
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
