@@ -18,7 +18,9 @@ class FileStorage:
         if self is None:
             return FileStorage.__objects
         filtered_objects = {
-            key: obj for key, obj in self.__objects.items() if isinstance(obj, cls)
+            key: obj
+            for key, obj in self.__objects.items()
+            if isinstance(obj, cls)
         }
         return filtered_objects
 
@@ -55,16 +57,19 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
     def delete(self, obj=None):
         """Deletes an object from storage"""
-        if obj == None:
+        if obj if None:
             return
         obj_key = obj.__class__.__name__ + '.' + obj.id
         if obj_key in self.all():
             del self.all()[obj_key]
             self.save()
-                
+
+    def close(self):
+        """Call the reload method."""
+        self.reload()
